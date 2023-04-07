@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Moja prva web aplikacija</h1>
+        
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6" id="topProduct">
+        </div>
+        <div class="col-md-6" id="counters">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $("#topProduct").load('@Url.Action("TopProducts", "Dashboard")');
+            $("#counters").load('@Url.Action("Counters", "Dashboard")');
+        });
+    </script>
+}

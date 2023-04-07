@@ -1,0 +1,134 @@
+﻿@model Proizvodii.Models.ProductListView
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Dodavanje proizvoda</a>
+</p>
+<div class="row">
+    <div class="md-form active-pink-2 mb-3">
+        <input id="productMainFilter" class="form-control" type="text" value="@Model.Filter" autofocus placeholder="Pretraga"
+               aria-label="Pretraga" onkeyup="filterInputKey(event);">
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2 categoryFilterContainer">
+                <label>Kategorije:</label>
+                <ul id="categoryFilter" class="categoryFilter">
+                    @foreach (var item in Model.CategoryFilter)
+                    {
+                        <li>
+                            <input type="checkbox" id="@item.Id" value="@item.Id" checked="@item.Selected" onclick="productSearch();" />
+                            <label>@item.Name</label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <table class="table product-table">
+                    <thead>
+                        <tr>
+                            <th style="width:20px">
+                                Redni broj
+                            </th>
+                            <th style="width:40px">
+                                @Html.DisplayNameFor(model => model.Products.First().ImageName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Products.First().Code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Products.First().Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Products.First().Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Products.First().Active)
+                            </th>
+                            <th style="width:200px">
+                                Akcije
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int rb = 1; }
+                        @foreach (var item in Model.Products.OrderBy(p => p.Name))
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @rb
+                                </td>
+                                <td class="text-center">
+                                    <img src="@item.ImagePath" alt="@item.Name" width="40" />
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Code)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="right-aligned">
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Active)
+                                </td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Pregled", "Details", new { id = item.ProductId }) |
+                                    @Html.ActionLink("Izmeni", "Edit", new { id = item.ProductId }) |
+                                    @Html.ActionLink("Obriši", "Delete", new { id = item.ProductId }, new { onclick = "return deleteProductModal();" })
+                                </td>
+                            </tr>
+                            rb++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    function deleteProductModal() {
+        return confirm('Da li ste sigurni da zelite da obrisete?');
+    }
+
+    
+    function filterInputKey(e) {
+        
+        if (e.keyCode == 13) {
+            productSearch();
+        }
+    }
+
+    
+    function productSearch() {
+        
+        let filter = document.getElementById("productMainFilter").value;
+
+        var catFilter = '';
+        
+        var ul = document.getElementById("categoryFilter");
+      
+        var items = ul.getElementsByTagName("li");
+       
+        for (var i = 0; i < items.length; ++i) {
+            
+            let cb = items[i].getElementsByTagName('input')[0];
+            
+            if (cb.checked) {
+                catFilter += '&categories=' + cb.value;
+            }
+        }
+
+        
+        let qs = '/product/Index?filter=' + filter + catFilter;
+       
+        window.location.href = qs;
+    }
+</script>

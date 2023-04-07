@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Proizvodii.Models.UserModel>
+
+@{
+    ViewData["Title"] = "Korisnici";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Kreiranje korisnika", "Create")
+</p>
+<div class="md-form active-pink-2 mb-3">
+    <input class="form-control" type="text" value="@ViewData["filter"]" autofocus placeholder="Pretraga"
+           aria-label="Pretraga" onkeyup="categorySeacrh(event, this.value);">
+</div>
+<table class="table user-table">
+    <thead>
+        <tr>
+            <th style="width:20px">
+                RB
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th style="width:200px">Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int i = 1;}
+        @foreach (var item in Model.OrderBy(p => p.FirstName).ThenBy(p => p.LastName))
+        {
+        <tr>
+            <td class="text-center">
+                @i.
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Izmeni", "Edit", new { id = item.UserId }) |
+                @Html.ActionLink("Obrisi", "Delete", new { id = item.UserId }, new { onclick = "return deleteUserModal();" })
+            </td>
+        </tr>
+            i++;
+        }
+    </tbody>
+</table>
+<script>
+    function deleteUserModal() {
+        return confirm('Da li ste sigurni da zelite da obrisete?');
+    }
+
+    function categorySeacrh(e, filter) {
+
+        if (e.keyCode == 13) {
+            window.location.href = "/User/Index?filter=" + filter;
+        }
+    }
+</script>

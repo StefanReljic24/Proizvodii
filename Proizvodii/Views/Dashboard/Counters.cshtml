@@ -1,0 +1,46 @@
+﻿<style>
+    .counter-box {
+        background: #3d8ef2;
+        padding: 20px 20px;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+        .counter-box p {
+            margin: 5px 0 0;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .counter-box i {
+            font-size: 60px;
+            margin: 0 0 15px;
+            color: #000000
+        }
+
+    .counter {
+        display: block;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 28px
+    }
+</style>
+
+<h2>Brojači</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div class="counter-box">
+            <i class="fa fa-group"></i> <span class="counter">@ViewData["userCount"]</span>
+            <p>Registered Members</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="counter-box">
+            <i class="fa fa-group"></i> <span class="counter">@ViewData["productCount"]</span>
+            <p>Products</p>
+        </div>
+    </div>
+</div>
+

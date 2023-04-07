@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Proizvodii.Entity.Category>
+
+@{
+    ViewData["Title"] = "Kategorije";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Kreiranje kategorije", "Create")
+</p>
+<div class="md-form active-pink-2 mb-3">
+    <input class="form-control" type="text" value="@ViewData["filter"]" autofocus placeholder="Pretraga"
+           aria-label="Pretraga" onkeyup="categorySeacrh(event, this.value);">
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(p => p.Name))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.ActionLink("Izmeni", "Edit", new { id = item.CategoryId }) |
+                    @Html.ActionLink("Obrisi", "Delete", new { id = item.CategoryId }, new { onclick = "return deleteCategoryModal();" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function deleteCategoryModal() {
+        return confirm('Da li ste sigurni da zelite da obrisete?');
+    }
+
+    function categorySeacrh(e, filter) {
+
+        if (e.keyCode == 13) {
+            window.location.href = "/Category/Index?filter=" + filter;
+        }
+    }
+</script>
+
+

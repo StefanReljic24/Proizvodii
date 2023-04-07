@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Proizvodii.Entity.Product>
+
+<h2>TOP 3 proizvoda</h2>
+<ul class="list-group shadow">
+    @foreach (var p in Model)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="font-weight-bold"> @p.Name</h4>
+                    <p> @p.Description</p>
+                    <h5 class="font-weight-bold text-xl"> @p.Price</h5>
+                </div>
+                <div class="col-md-4">
+                    <img src="@p.ImagePath" alt="Generic placeholder image" width="150" style="float:right">
+                </div>
+            </div>
+        </li>
+    }
+</ul>
